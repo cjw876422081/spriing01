@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--   构造器实例化-->
+    <bean id="userdao" class="com.itheima.ioc.UserDaoImpl"/>
+<!--    注入实例化-->
+    <bean id="userservice" class="com.itheima.ioc.UserServiceImpl">
+        <property name="userDao" ref="userdao"></property>
+    </bean>
+<!--    静态工厂实现bean实例化-->
+    <bean id="bean2" class="com.itheima.ioc.BeanFactory" factory-method="createBean">
+    </bean>
+<!--    实例化工厂实例bean-->
+    <bean id="beanfactory" class="com.itheima.ioc.BeanFactory2">
+    </bean>
+    <bean id="bean3" factory-bean="beanfactory" factory-method="createBean"></bean>
+
+<!--    构造注入-->
+    <bean id="User1" class="com.itheima.ioc.User">
+        <constructor-arg index="0" value="tom"/>
+        <constructor-arg index="1" value="123456"/>
+        <constructor-arg index="2">
+            <list>
+                <value>"a“</value>
+                <value>"b"</value>
+            </list>
+        </constructor-arg>
+    </bean>
+<!--    设置注入-->
+    <bean id="User2" class="com.itheima.ioc.User">
+        <property name="username" value="李四"></property>
+        <property name="password" value="23432432"></property>
+        <property name="list">
+            <list>
+                <value>"a“</value>
+                <value>"b"</value>
+            </list>
+        </property>
+    </bean>
+
+<!--    手写自动装配-->
+<!--    <context:annotation-config>-->
+<!--        <bean id="userDao2" class="com.itheima.ioc.UserDaoImpl"/>-->
+<!--        <bean id="userService2" class="com.itheima.ioc.UserServiceImpl"></bean>-->
+<!--        <bean id="userContoller" class="com.itheima.ioc.Usercontroller"></bean>-->
+<!--    </context:annotation-config>-->
+<!--   自动扫描注释-->
+    <context:component-scan base-package="com.itheima.ioc"></context:component-scan>
+
+</beans>
